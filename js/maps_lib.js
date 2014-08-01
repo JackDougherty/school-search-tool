@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       805,            //in meters ~ 1/2 mile
+  searchRadius:       805,            //in meters, but by design, DOES NOT APPEAR in this tool
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -121,17 +121,17 @@ var MapsLib = {
 
     var whereClause = MapsLib.locationColumn + " not equal to ''";
 
-  //-----custom filters for point data layer
-    //---MODIFY column header and values below to match your Google Fusion Table AND index.html
-    /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
-    var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
-    var tempWhereClause = [];
-    if ( $("#cbType1").is(':checked')) tempWhereClause.push("Interdistrict");
-    if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
-    if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
-    whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
+  //-----MODIFY custom filters
 
-    //-- NUMERICAL OPTION - to display and filter a column of numerical data in your table, use this instead
+    // for Grades drop-down menu: all, 1= Birth-3, 2=PK3, 3=PK4, 4=Knd, 5=Gr1, 6=Gr2,... 16=Gr12
+    //QUESTION: What is set of logical statements to search appropriate grade columns based on drop-down?
+    //SEE https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo
+    //ALSO, do I need to add a line to the Reset or Initialize portions of the code?
+    if ( $('#select_grade').val() !="")
+      whereClause += "AND 'Birth-3'= '" + $("select_grade").val() + "'";
+
+    // for School type checkboxes
+    //-- NUMERICAL OPTION - MODIFY column header and values below to match your Google Fusion Table data AND index.html
     var type_column = "TypeNum";
     var searchType = type_column + " IN (-1,";
     if ( $("#cbType1").is(':checked')) searchType += "1,";
@@ -140,6 +140,15 @@ var MapsLib = {
     if ( $("#cbType4").is(':checked')) searchType += "4,";
     if ( $("#cbType5").is(':checked')) searchType += "5,";
     whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
+    
+    /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
+    var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
+    var tempWhereClause = [];
+    if ( $("#cbType1").is(':checked')) tempWhereClause.push("Interdistrict");
+    if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
+    if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
+    whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
+    
     //-------end of custom filters--------
 
     if (address != "") {
