@@ -311,10 +311,10 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in th list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    var selectColumns = "School, SchoolShort, OrgCode, Manager, Type";
+    var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
-
+      
   displayList: function(json) {
     MapsLib.handleError(json);
     var columns = json["columns"];
@@ -330,31 +330,41 @@ var MapsLib = {
       }
     else {
 
-      //set table headers
+      //set table headers  -- in future, add RATING below
       var list_table = "\
       <table class='table' id ='list_table'>\
         <thead>\
           <tr>\
-            <th>School</th>\
-            <th>Nickname&nbsp;&nbsp;</th>\
-            <th>OrgCode</th>\
-            <th>Manager</th>\
-            <th>Type</th>\
+            <th>School (managed by)</th>\
+            <th>Grades&nbsp;&nbsp;</th>\
+            <th>Address</th>\
+            <th>To Apply</th>\
           </tr>\
         </thead>\
         <tbody>";
 
-      // based on the columns we selected in getList()
-      // rows[row][0] = School
-      // rows[row][1] = SchoolShort
-      // rows[row][2] = OrgCode
-      // rows[row][3] = Manager
-      // rows[row][4] = Type
-
       for (var row in rows) {
 
-        // var school = "<a href='" + rows[row][5] + "'>" + rows[row][0] + "</a>";
-        // var address = rows[row][2] + "<br />" + rows[row][3] + ", " + rows[row][4];
+        var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>";
+        var address = rows[row][3] + ", " + rows[row][4];
+        var apply = "<a href='" + rows[row][8] + "'>" rows[row][7] + "</a>" + "</br>" + "<a href='" + rows[row][10] + "'>" rows[row][9] + "</a>";
+        
+      // in future add --   var rating = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+        
+      // based on the columns we selected in getList()
+      // rows[row][0] = School
+      // rows[row][1] = Manager
+      // rows[row][2] = TypeNum
+      // rows[row][3] = Address
+      // rows[row][4] = City
+      // rows[row][5] = Grades
+      // rows[row][6] = SchoolURL
+      // rows[row][7] = ApplyTo
+      // rows[row][8] = ApplyURL
+      // rows[row][9] = Transportation
+      // rows[row][10] = TransportationURL
+      // rows[row][11] = Rating
+      // rows[row][12] = RatingURL
 
         list_table += "\
           <tr>\
