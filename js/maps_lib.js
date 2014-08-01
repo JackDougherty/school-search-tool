@@ -347,9 +347,9 @@ var MapsLib = {
 
         var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>";
         var address = rows[row][3] + ", " + rows[row][4];
-       // var apply = "<a href='" + rows[row][8] + "'>" rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" rows[row][9] + "</a>";
+        var apply = "<a href='" + rows[row][8] + "'>" rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" rows[row][9] + "</a>";
         
-      // in future add --   var rating = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+      // IN FUTURE add --   var rating = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
         
       // based on the columns we selected in getList()
       // rows[row][0] = School
@@ -366,13 +366,14 @@ var MapsLib = {
       // rows[row][11] = Rating
       // rows[row][12] = RatingURL
 
+
+// IN FUTURE , add: <td>" + rating + "</td>\
         list_table += "\
           <tr>\
-            <td>" + rows[row][0] + "</td>\
-            <td>" + rows[row][1] + "</td>\
-            <td>" + rows[row][2] + "</td>\
-            <td>" + rows[row][3] + "</td>\
-            <td>" + rows[row][4] + "</td>\
+            <td>" + school + "</td>\
+            <td>" + rows[row][5] + "</td>\
+            <td>" + address + "</td>\
+            <td>" + apply + "</td>\
           </tr>";
       }
 
@@ -389,15 +390,16 @@ var MapsLib = {
 
       // custom sorting functions defined in js/jquery.dataTables.sorting.js
       // custom Bootstrap styles for pagination defined in css/dataTables.bootstrap.css
+      
+      // IN FUTURE add: null // rating (and insert comma at end of prior null)
 
       $("#list_table").dataTable({
           "aaSorting": [[0, "asc"]], //default column to sort by (School)
           "aoColumns": [ // tells DataTables how to perform sorting for each column
-              null, // School
-              null, // nickname
-              null, // OrgCode - default text sorting
-              null, // Manager - default text sorting
-              null // Type - default text sorting, last item has NO comma
+              null, // school - default text sorting
+              null, // grades - default text sorting
+              null, // address - default text sorting
+              null // apply - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
           "bInfo": false, // disables results count - we already do this too
