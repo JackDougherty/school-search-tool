@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <!--MODIFY title that appears in web browser tab -->
-    <title>SmartChoices</title>
+    <title>School Search Tool</title>
     <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content='' name='description' />
@@ -27,12 +27,12 @@
             <span class="icon-bar"></span>
           </button>
           <!--MODIFY title of web page, and link destination if desired-->
-          <a class='navbar-brand' href='index.html'>SmartChoices draft 2014-07-01</a>
+          <a class='navbar-brand' href='index.html'>Achieve Hartford school search tool</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <!--MODIFY link and text to point to your own site if desired-->
-            <li class='active'><a href="http://achievehartford.org" target="_blank">Learn more at Achieve Hartford!</a></li>
+            <li class='active'><a href="http://achievehartford.org" target="_blank">back to Achieve Hartford</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -41,7 +41,7 @@
       <div class='row'>
         <div class='col-md-4'>
         <!--MODIFY or erase any descriptive text or links below between the paragraph <p> tags -->
-          <p>Search for public school choices</p>
+          <p>Search for publicly-funded schools and programs open to residents of City of Hartford</p>
           <div class='well'>
             <h4>
               Address <small>(<a id='find_me' href='#'>find me</a>)</small>
@@ -49,70 +49,63 @@
             <p>
               <input class='form-control' id='search_address' placeholder='Enter an address or an intersection' type='text' />
             </p>
-            <p>
-              <label>
-                within
-                <select id='search_radius'>
-                  <!--MODIFY search options. Values are metric: 1610 meters = 1 mile -->
-                  <option value='400'>2 blocks</option>
-                  <option value='805'>1/2 mile</option>
-                  <option value='1610'>1 mile</option>
-                  <option value='3220'>2 miles</option>
-                </select>
-              </label>
-            </p>
 
             <!--MODIFY Point layer legend heading, labels (such as Interdistrict), and colors (green, blue, yellow, red, purple) to match your data -->
             <h4>
-              Schools
+              School type
             </h4>
             <ul class='inputs-list unstyled'>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType1' />
-                  <span class='filter-box filter-green'></span>
-                  Interdistrict  <!--This label can be modified from actual data entry ("Interdistrict") -->
+                  <span class='filter-box filter-blue'></span>
+                  District  <!--These labels can be changed without altering database -->
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType2' />
-                  <span class='filter-box filter-blue'></span>
-                  District
+                  <span class='filter-box filter-green'></span>
+                  Magnet
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType3' />
+                  <span class='filter-box filter-red'></span>
+                  Charter
+                </label>
+              </li>
+              <li>
+                <label class='checkbox inline'>
+                  <input type='checkbox' id='cbType4' />
+                  <span class='filter-box filter-purple'></span>
+                  Technical
+                </label>
+              </li>
+              <li>
+                <label class='checkbox inline'>
+                  <input type='checkbox' id='cbType5' />
                   <span class='filter-box filter-yellow'></span>
-                  More PreK centers
+                  Early Childhood 
                 </label>
               </li>
             </ul>
             <h4>
-            <!--MODIFY Polygon layers legend heading, labels (such as Polygon layer 1) to match your data, and related variables in maps_lib.js file -->
-              Background
+              Hartford Public School zones
             </h4>
             <ul class='inputs-list unstyled'>
               <li>
                 <label class='radio inline'>
                   <input type='radio' name='types' id='rbPolygon1' checked />
-                  Hartford Public School zones
+                  on
                 </label>
-              </li>
-              <li>
-                <label class='radio inline'>
-                  <input type='radio' name='types' id='rbPolygon2' />
-                  Suburban towns
-                </label>
-              </li>
-              <li>
                 <label class='radio inline'>
                   <input type='radio' name='types' id='rbPolygon0' />
-                  Off
+                  off
                 </label>
               </li>
-            </ul>
+            </ul> 
 
             <div class='clearfix'></div>
             <p class='pull-left'>
@@ -140,8 +133,8 @@
           <hr />
           <div id='listview'></div>
           <!--MODIFY link to publicly display your Google Fusion Tables data table, source, and text-->
-          <p>View <a href='https://www.google.com/fusiontables/DataSource?docid=1WoxNIvjGQzQAk7B965hwVQOIl04f-Xn09JuTLu03' target='blank'>school data source</a> from <a href='http://smartchoices.trincoll.edu' target='_blank'>SmartChoices</a>, based on CSDE and RSCO; Outline maps: MAGIC UConn</br>
-          <a href='https://github.com/JackDougherty/FusionTable-Map-SmartChoices'>Open-source code on GitHub</a> by <a href='http://commons.trincoll.edu/datavizDataViz' target='_blank'>DataViz at Trinity College</a>, based on <a href='http://derekeder.com/searchable_map_template/' target='_blank'>Searchable Map Template</a> by <a href='http://derekeder.com' target='_blank'>Derek Eder</a></p>
+          <p>Sources: View <a href='https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo' target='blank'>school data</a>, updated by <a href='http://AchieveHartford.org' target='_blank'>Achieve Hartford</a>, based on public data from state, city, and school districts</br>
+          Search tool: <a href='https://github.com/JackDougherty/school-search-tool'>open-source code on GitHub</a> by <a href='http://commons.trincoll.edu/datavizDataViz' target='_blank'>DataViz at Trinity College</a>, based on <a href='http://derekeder.com/searchable_map_template/' target='_blank'>Searchable Map Template</a> by <a href='http://derekeder.com' target='_blank'>Derek Eder</a></p>
         </div>
       </div>
     </div>
