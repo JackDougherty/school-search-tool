@@ -345,7 +345,7 @@ var MapsLib = {
 
       for (var row in rows) {
 
-        var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>";
+        var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var address = rows[row][3] + ", " + rows[row][4];
         var apply = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
         
