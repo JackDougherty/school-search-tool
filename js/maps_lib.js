@@ -11,7 +11,7 @@
  * Licensed under the MIT license.
  * https://github.com/derekeder/FusionTable-Map-Template/wiki/License
  *
- * Date: 17/03/2014 template modified by Derek Eder and Jack Dougherty
+ * Date: 1 August 2014 template modified by Jack Dougherty, based on work by Derek Eder
  *
  */
 
@@ -28,8 +28,7 @@ var MapsLib = {
   //NOTE: numeric IDs will be depricated soon
   fusionTableId:      "1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo", //Point data layer
   
-  polygon1TableID:    "1poRWt7WIHrERFaMu0gmdtN-yVBjXxzE4VG8I4sM", //HPS zones
-  polygon2TableID:    "1ceippR4giBiF-pT9PE1YAUvebFp6_NKvYriccYo", //CT town boundaries outlines
+  polygon1TableID:    "1o-Xs4sG6qgc5u_MLwzVwjOX14WUul4oA1QlZTpTx", //HPS zones
 
   //*MODIFY Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
   //*Important* this key is for demonstration purposes. please register your own.
@@ -48,7 +47,7 @@ var MapsLib = {
 
   searchRadius:       805,            //in meters ~ 1/2 mile
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
-  addrMarkerImage:    'images/blue-pushpin.png',
+  addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
 
   initialize: function() {
@@ -81,19 +80,10 @@ var MapsLib = {
 
     MapsLib.searchrecords = null;
 
-    // MODIFY if needed: defines background polygon1 and polygon2 layers
+    // MODIFY if needed: defines background polygon1 and layers
     MapsLib.polygon1 = new google.maps.FusionTablesLayer({
       query: {
         from:   MapsLib.polygon1TableID,
-        select: "geometry"
-      },
-      styleId: 2,
-      templateId: 2
-    });
-
-    MapsLib.polygon2 = new google.maps.FusionTablesLayer({
-      query: {
-        from:   MapsLib.polygon2TableID,
         select: "geometry"
       },
       styleId: 2,
@@ -124,9 +114,6 @@ var MapsLib = {
     // MODIFY if needed: shows background polygon layer depending on which checkbox is selected
     if ($("#rbPolygon1").is(':checked')) {
       MapsLib.polygon1.setMap(map);
-    }
-    else if ($("#rbPolygon2").is(':checked')) {
-      MapsLib.polygon2.setMap(map);
     }
 
     var address = $("#search_address").val();
@@ -216,8 +203,6 @@ var MapsLib = {
       MapsLib.searchrecords.setMap(null);
     if (MapsLib.polygon1 != null)
       MapsLib.polygon1.setMap(null);
-    if (MapsLib.polygon2 != null)
-      MapsLib.polygon2.setMap(null);
     if (MapsLib.addrMarker != null)
       MapsLib.addrMarker.setMap(null);
     if (MapsLib.searchRadiusCircle != null)
@@ -326,7 +311,7 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in th list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    var selectColumns = "School, GradeLevels, Address, City, State, Url, Manager, Gain_numeric, Gain_image";
+    var selectColumns = "School, SchoolShort, OrgCode, Manager, Type";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
 
@@ -351,37 +336,33 @@ var MapsLib = {
         <thead>\
           <tr>\
             <th>School</th>\
-            <th>Grades&nbsp;&nbsp;</th>\
-            <th>Address</th>\
+            <th>Nickname&nbsp;&nbsp;</th>\
+            <th>OrgCode</th>\
             <th>Manager</th>\
-            <th>Gain</th>\
+            <th>Type</th>\
           </tr>\
         </thead>\
         <tbody>";
 
       // based on the columns we selected in getList()
       // rows[row][0] = School
-      // rows[row][1] = GradeLevels
-      // rows[row][2] = Address
-      // rows[row][3] = City
-      // rows[row][4] = State
-      // rows[row][5] = Url
-      // rows[row][6] = Manager
-      // rows[row][7] = Gain_numeric
-      // rows[row][8] = Gain_image
+      // rows[row][1] = SchoolShort
+      // rows[row][2] = OrgCode
+      // rows[row][3] = Manager
+      // rows[row][4] = Type
 
       for (var row in rows) {
 
-        var school = "<a href='" + rows[row][5] + "'>" + rows[row][0] + "</a>";
-        var address = rows[row][2] + "<br />" + rows[row][3] + ", " + rows[row][4];
+        // var school = "<a href='" + rows[row][5] + "'>" + rows[row][0] + "</a>";
+        // var address = rows[row][2] + "<br />" + rows[row][3] + ", " + rows[row][4];
 
         list_table += "\
           <tr>\
-            <td>" + school + "</td>\
+            <td>" + rows[row][0] + "</td>\
             <td>" + rows[row][1] + "</td>\
-            <td>" + address + "</td>\
-            <td>" + rows[row][6] + "</td>\
-            <td><span data-value='" + rows[row][7] + "'><img src='" + rows[row][8] + "' /></span></td>\
+            <td>" + rows[row][2] + "</td>\
+            <td>" + rows[row][3] + "</td>\
+            <td>" + rows[row][4] + "</td>\
           </tr>";
       }
 
@@ -402,11 +383,11 @@ var MapsLib = {
       $("#list_table").dataTable({
           "aaSorting": [[0, "asc"]], //default column to sort by (School)
           "aoColumns": [ // tells DataTables how to perform sorting for each column
-              { "sType": "html-string" }, //School name with HTML for the link, which we want to ignore
-              null, // Grades - default text sorting
-              null, // Address - default text sorting
+              null, // School
+              null, // nickname
+              null, // OrgCode - default text sorting
               null, // Manager - default text sorting
-              { "sType": "data-value-num" } // Gain - sort by a hidden data-value attribute
+              null // Type - default text sorting, last item has NO comma
           ],
           "bFilter": false, // disable search box since we already have our own
           "bInfo": false, // disables results count - we already do this too
