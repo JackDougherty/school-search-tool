@@ -311,10 +311,10 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in th list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    var selectColumns = "School, SchoolShort, OrgCode, Manager, Type";
+    var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
-
+      
   displayList: function(json) {
     MapsLib.handleError(json);
     var columns = json["columns"];
@@ -330,39 +330,50 @@ var MapsLib = {
       }
     else {
 
-      //set table headers
+      //set table headers  -- in future, add RATING below
       var list_table = "\
       <table class='table' id ='list_table'>\
         <thead>\
           <tr>\
-            <th>School</th>\
-            <th>Nickname&nbsp;&nbsp;</th>\
-            <th>OrgCode</th>\
-            <th>Manager</th>\
-            <th>Type</th>\
+            <th>School (managed by)</th>\
+            <th>Grades&nbsp;&nbsp;&nbsp;&nbsp;</th>\
+            <th>Address</th>\
+            <th>To Apply</th>\
           </tr>\
         </thead>\
         <tbody>";
 
-      // based on the columns we selected in getList()
-      // rows[row][0] = School
-      // rows[row][1] = SchoolShort
-      // rows[row][2] = OrgCode
-      // rows[row][3] = Manager
-      // rows[row][4] = Type
-
       for (var row in rows) {
 
-        // var school = "<a href='" + rows[row][5] + "'>" + rows[row][0] + "</a>";
-        // var address = rows[row][2] + "<br />" + rows[row][3] + ", " + rows[row][4];
+        var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
+        var address = rows[row][3] + ", " + rows[row][4];
+        var apply = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
+        
+      // IN FUTURE add --   var rating = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+        
+      // based on the columns we selected in getList()
+      // rows[row][0] = School
+      // rows[row][1] = Manager
+      // rows[row][2] = TypeNum
+      // rows[row][3] = Address
+      // rows[row][4] = City
+      // rows[row][5] = Grades
+      // rows[row][6] = SchoolURL
+      // rows[row][7] = ApplyTo
+      // rows[row][8] = ApplyURL
+      // rows[row][9] = Transportation
+      // rows[row][10] = TransportationURL
+      // rows[row][11] = Rating
+      // rows[row][12] = RatingURL
 
+
+// IN FUTURE , add: <td>" + rating + "</td>\
         list_table += "\
           <tr>\
-            <td>" + rows[row][0] + "</td>\
-            <td>" + rows[row][1] + "</td>\
-            <td>" + rows[row][2] + "</td>\
-            <td>" + rows[row][3] + "</td>\
-            <td>" + rows[row][4] + "</td>\
+            <td>" + school + "</td>\
+            <td>" + rows[row][5] + "</td>\
+            <td>" + address + "</td>\
+            <td>" + apply + "</td>\
           </tr>";
       }
 
@@ -379,15 +390,16 @@ var MapsLib = {
 
       // custom sorting functions defined in js/jquery.dataTables.sorting.js
       // custom Bootstrap styles for pagination defined in css/dataTables.bootstrap.css
+      
+      // IN FUTURE add: null // rating (and insert comma at end of prior null)
 
       $("#list_table").dataTable({
           "aaSorting": [[0, "asc"]], //default column to sort by (School)
           "aoColumns": [ // tells DataTables how to perform sorting for each column
-              null, // School
-              null, // nickname
-              null, // OrgCode - default text sorting
-              null, // Manager - default text sorting
-              null // Type - default text sorting, last item has NO comma
+              null, // school - default text sorting
+              null, // grades - default text sorting
+              null, // address - default text sorting
+              null // apply - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
           "bInfo": false, // disables results count - we already do this too
