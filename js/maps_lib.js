@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       805,            //in meters ~ 1/2 mile
+  searchRadius:       805,            //in meters, but by design, DOES NOT APPEAR in this tool
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -121,17 +121,17 @@ var MapsLib = {
 
     var whereClause = MapsLib.locationColumn + " not equal to ''";
 
-  //-----custom filters for point data layer
-    //---MODIFY column header and values below to match your Google Fusion Table AND index.html
-    /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
-    var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
-    var tempWhereClause = [];
-    if ( $("#cbType1").is(':checked')) tempWhereClause.push("Interdistrict");
-    if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
-    if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
-    whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
+  //-----MODIFY custom filters
 
-    //-- NUMERICAL OPTION - to display and filter a column of numerical data in your table, use this instead
+    // for Grades drop-down menu: all, 1= Birth-3, 2=PK3, 3=PK4, 4=Knd, 5=Gr1, 6=Gr2,... 16=Gr12
+    //QUESTION: What is set of logical statements to search appropriate grade columns based on drop-down?
+    //SEE https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo
+    //ALSO, do I need to add a line to the Reset or Initialize portions of the code?
+    if ( $('#select_grade').val() !="")
+      whereClause += "AND 'Birth-3'= '" + $("select_grade").val() + "'";
+
+    // for School type checkboxes
+    //-- NUMERICAL OPTION - MODIFY column header and values below to match your Google Fusion Table data AND index.html
     var type_column = "TypeNum";
     var searchType = type_column + " IN (-1,";
     if ( $("#cbType1").is(':checked')) searchType += "1,";
@@ -140,6 +140,15 @@ var MapsLib = {
     if ( $("#cbType4").is(':checked')) searchType += "4,";
     if ( $("#cbType5").is(':checked')) searchType += "5,";
     whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
+    
+    /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
+    var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
+    var tempWhereClause = [];
+    if ( $("#cbType1").is(':checked')) tempWhereClause.push("Interdistrict");
+    if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
+    if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
+    whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
+    
     //-------end of custom filters--------
 
     if (address != "") {
@@ -345,11 +354,11 @@ var MapsLib = {
 
       for (var row in rows) {
 
-        var school = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
-        var address = rows[row][3] + ", " + rows[row][4];
-        var apply = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
+        var schoolCombo = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
+        var addressCombo = rows[row][3] + ", " + rows[row][4];
+        var applyCombo = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
         
-      // IN FUTURE add --   var rating = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+      // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
         
       // based on the columns we selected in getList()
       // rows[row][0] = School
@@ -367,13 +376,13 @@ var MapsLib = {
       // rows[row][12] = RatingURL
 
 
-// IN FUTURE , add: <td>" + rating + "</td>\
+// IN FUTURE , add: <td>" + ratingCombo + "</td>\
         list_table += "\
           <tr>\
-            <td>" + school + "</td>\
+            <td>" + schoolCombo + "</td>\
             <td>" + rows[row][5] + "</td>\
-            <td>" + address + "</td>\
-            <td>" + apply + "</td>\
+            <td>" + addressCombo + "</td>\
+            <td>" + applyCombo + "</td>\
           </tr>";
       }
 
@@ -391,15 +400,15 @@ var MapsLib = {
       // custom sorting functions defined in js/jquery.dataTables.sorting.js
       // custom Bootstrap styles for pagination defined in css/dataTables.bootstrap.css
       
-      // IN FUTURE add: null // rating (and insert comma at end of prior null)
+      // IN FUTURE add: null // ratingCombo (and insert comma at end of prior null)
 
       $("#list_table").dataTable({
           "aaSorting": [[0, "asc"]], //default column to sort by (School)
           "aoColumns": [ // tells DataTables how to perform sorting for each column
-              null, // school - default text sorting
+              null, // schoolCombo - default text sorting
               null, // grades - default text sorting
-              null, // address - default text sorting
-              null // apply - default text sorting, and last item has NO COMMA
+              null, // addressCombo - default text sorting
+              null // applyCombo - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
           "bInfo": false, // disables results count - we already do this too
