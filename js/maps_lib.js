@@ -336,7 +336,7 @@ var MapsLib = {
         <thead>\
           <tr>\
             <th>School (managed by)</th>\
-            <th>Grades&nbsp;&nbsp;&nbsp;</th>\
+            <th>Grades&nbsp;&nbsp;&nbsp;&nbsp;</th>\
             <th>Address</th>\
             <th>To Apply</th>\
           </tr>\
