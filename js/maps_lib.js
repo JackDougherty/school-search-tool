@@ -128,7 +128,7 @@ var MapsLib = {
     //SEE https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo
     //ALSO, do I need to add a line to the Reset or Initialize portions of the code?
     if ( $('#select_grade').val() !="")
-      whereClause += "AND 'type'= '" + $("select_grade").val() + "'";
+      whereClause += "AND '" + $("select_grade").val() + "'='1'";
 
     // for School type checkboxes
     //-- NUMERICAL OPTION - MODIFY column header and values below to match your Google Fusion Table data AND index.html
