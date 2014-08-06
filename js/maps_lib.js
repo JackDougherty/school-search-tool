@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       10000,            //in meters, but by design, DOES NOT APPEAR in this tool
+  searchRadius:       32200,            //in meters
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -161,7 +161,7 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(14);
+          map.setZoom(12);
 
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint,
