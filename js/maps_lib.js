@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  //searchRadius:       805,            //in meters, but by design, DOES NOT APPEAR in this tool
+  searchRadius:       10000,            //in meters, but by design, DOES NOT APPEAR in this tool
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -92,9 +92,9 @@ var MapsLib = {
 
     //reset filters
     $("#search_address").val(MapsLib.convertToPlainString($.address.parameter('address')));
-    //var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
-    //if (loadRadius != "") $("#search_radius").val(loadRadius);
-    //else $("#search_radius").val(MapsLib.searchRadius);
+    var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
+    if (loadRadius != "") $("#search_radius").val(loadRadius);
+    else $("#search_radius").val(MapsLib.searchRadius);
     $(":checkbox").prop("checked", "checked");
     $("#result_box").hide();
 
@@ -117,7 +117,7 @@ var MapsLib = {
     }
 
     var address = $("#search_address").val();
-    //MapsLib.searchRadius = $("#search_radius").val();
+    MapsLib.searchRadius = $("#search_radius").val();
 
     var whereClause = MapsLib.locationColumn + " not equal to ''";
 
@@ -159,7 +159,7 @@ var MapsLib = {
           MapsLib.currentPinpoint = results[0].geometry.location;
 
           $.address.parameter('address', encodeURIComponent(address));
-          //$.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
+          $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
           map.setZoom(14);
 
@@ -213,8 +213,8 @@ var MapsLib = {
       MapsLib.polygon1.setMap(null);
     if (MapsLib.addrMarker != null)
       MapsLib.addrMarker.setMap(null);
-    //if (MapsLib.searchRadiusCircle != null)
-     // MapsLib.searchRadiusCircle.setMap(null);
+    if (MapsLib.searchRadiusCircle != null)
+      MapsLib.searchRadiusCircle.setMap(null);
   },
 
   findMe: function() {
@@ -246,7 +246,7 @@ var MapsLib = {
     });
   },
 
-  /*drawSearchRadiusCircle: function(point) {
+  drawSearchRadiusCircle: function(point) {
       var circleOptions = {
         strokeColor: "#4b58a6",
         strokeOpacity: 0.3,
@@ -260,7 +260,7 @@ var MapsLib = {
         radius: parseInt(MapsLib.searchRadius)
       };
       MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
-  },*/
+  },
 
   query: function(selectColumns, whereClause, groupBY, orderBY, limit, callback) {
     var queryStr = [];
