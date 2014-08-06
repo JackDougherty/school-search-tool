@@ -123,10 +123,8 @@ var MapsLib = {
 
   //-----MODIFY custom filters
 
-    // JACK REDO COMMENTS AND FINISH for Grades drop-down menu: all, 1= Birth-3, 2=PK3, 3=PK4, 4=Knd, 5=Gr1, 6=Gr2,... 16=Gr12
-    //QUESTION: What is set of logical statements to search appropriate grade columns based on drop-down?
-    //SEE https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo
-    //ALSO, do I need to add a line to the Reset or Initialize portions of the code?
+    // for Grade drop-down menu to search across multiple columns in GFT, where select_grade (e.g. name of column=Gr1) = 1
+    // set up Google Fusion Table column headers to match drop-down options in index.html, and data = 1 or 0
     if ( $('#select_grade').val() !=""){
       whereClause += "AND '" + $("#select_grade").val() + "'='1'";
     }
