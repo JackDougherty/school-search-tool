@@ -324,11 +324,11 @@ var MapsLib = {
   },
 
   displayList: function(json) {
-    alert("HI");
     MapsLib.handleError(json);
     var columns = json["columns"];
     var rows = json["rows"];
     var template = "";
+    alert("HI");
 
     var results = $("#listview");
     results.empty(); //hide the existing list and empty it out first
