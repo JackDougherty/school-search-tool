@@ -173,7 +173,7 @@ var MapsLib = {
 
           // whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
 
-          MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
+          // MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
           MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
         }
         else {
@@ -213,8 +213,8 @@ var MapsLib = {
       MapsLib.polygon1.setMap(null);
     if (MapsLib.addrMarker != null)
       MapsLib.addrMarker.setMap(null);
-    if (MapsLib.searchRadiusCircle != null)
-      MapsLib.searchRadiusCircle.setMap(null);
+    // if (MapsLib.searchRadiusCircle != null)
+    //   MapsLib.searchRadiusCircle.setMap(null);
   },
 
   findMe: function() {
@@ -246,21 +246,21 @@ var MapsLib = {
     });
   },
 
-  drawSearchRadiusCircle: function(point) {
-      var circleOptions = {
-        strokeColor: "#4b58a6",
-        strokeOpacity: 0.3,
-        strokeWeight: 1,
-        fillColor: "#4b58a6",
-        fillOpacity: 0.05,
-        map: map,
-        center: point,
-        clickable: false,
-        zIndex: -1,
-        radius: parseInt(MapsLib.searchRadius)
-      };
-      MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
-  },
+  // drawSearchRadiusCircle: function(point) {
+  //     var circleOptions = {
+  //       strokeColor: "#4b58a6",
+  //       strokeOpacity: 0.3,
+  //       strokeWeight: 1,
+  //       fillColor: "#4b58a6",
+  //       fillOpacity: 0.05,
+  //       map: map,
+  //       center: point,
+  //       clickable: false,
+  //       zIndex: -1,
+  //       radius: parseInt(MapsLib.searchRadius)
+  //     };
+  //     MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
+  // },
 
   query: function(selectColumns, whereClause, groupBY, orderBY, limit, callback) {
     var queryStr = [];
