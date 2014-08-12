@@ -384,7 +384,7 @@ var MapsLib = {
             <td>" + schoolCombo + "</td>\
             <td>" + rows[row][7] + "</td>\
             <td>" + addressCombo + "</td>\
-            <td>" + rows[row][5] + "</td>\
+            <td>" + getDistance(0, 0, rows[row][5], rows[row][6]) + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
       }
@@ -460,10 +460,10 @@ var rad = function(x) {
 
 var getDistance = function(p1_lat, p1_long, p2_lat, p2_long) {
   var R = 6378137; // Earth’s mean radius in meter
-  var dLat = rad(p2_lat() - p1_lat());
-  var dLong = rad(p2_long() - p1_long());
+  var dLat = rad(p2_lat - p1_lat);
+  var dLong = rad(p2_long - p1_long);
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(rad(p1_lat())) * Math.cos(rad(p2_lat())) *
+    Math.cos(rad(p1_lat)) * Math.cos(rad(p2_lat)) *
     Math.sin(dLong / 2) * Math.sin(dLong / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
