@@ -455,7 +455,7 @@ var MapsLib = {
 
   //-----end of custom functions-------
 }
-
+// getDistance calculation uses Haversine formula from centerpoint of map to each row lat and lng
 var rad = function(x) {
   return x * Math.PI / 180;
 };
