@@ -413,7 +413,7 @@ var MapsLib = {
               null, // schoolCombo - default text sorting
               null, // grades - default text sorting
               null, // addressCombo - default text sorting
-              { "sType": "data-value-num" }, //distance -- sort according to numerical value, ascending
+              { "sType": "numeric" }, //distance -- sort according to numerical value, ascending
               null // applyCombo - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
