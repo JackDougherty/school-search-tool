@@ -328,7 +328,6 @@ var MapsLib = {
     var columns = json["columns"];
     var rows = json["rows"];
     var template = "";
-    alert("GOT HERE1.");
 
     var results = $("#listview");
     results.empty(); //hide the existing list and empty it out first
@@ -338,6 +337,7 @@ var MapsLib = {
       results.append("<span class='lead'>No results found</span>");
       }
     else {
+      alert("GOT HERE2.");
 
       //set table headers  -- in future, add RATING below
       var list_table = "\
