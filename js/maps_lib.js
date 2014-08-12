@@ -319,9 +319,9 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in the list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    alert("HI");
     var selectColumns = "School, Manager, TypeNum, Address, City, Lat, Lng, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
+    alert("HI");
   },
 
   displayList: function(json) {
