@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       32200,            //in meters
+  searchRadius:       1000,            //in meters
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -159,7 +159,7 @@ var MapsLib = {
           MapsLib.currentPinpoint = results[0].geometry.location;
 
           $.address.parameter('address', encodeURIComponent(address));
-          $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
+          // $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
           map.setZoom(12);
 
@@ -171,7 +171,7 @@ var MapsLib = {
             title:address
           });
 
-          whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
+          // whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
 
           MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
           MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
