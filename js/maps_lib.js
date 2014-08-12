@@ -353,7 +353,6 @@ var MapsLib = {
         <tbody>";
 
       for (var row in rows) {
-        alert("GOT HERE3.");
         var schoolCombo = "<a href='" + rows[row][8] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
         var applyCombo = "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>" + "<br />" + "<a href='" + rows[row][12] + "'>" + rows[row][11] + "</a>";
@@ -379,13 +378,13 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
-
+        alert("GOT HERE4.");
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
             <td>" + rows[row][7] + "</td>\
             <td>" + addressCombo + "</td>\
-            <td>" + getDistance(rows[row][5], rows[row][6], 0, 0) + "</td>\
+            <td>" + rows[row][5] + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
       }
