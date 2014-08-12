@@ -337,7 +337,6 @@ var MapsLib = {
       results.append("<span class='lead'>No results found</span>");
       }
     else {
-      alert("GOT HERE2.");
 
       //set table headers  -- in future, add RATING below
       var list_table = "\
@@ -354,6 +353,7 @@ var MapsLib = {
         <tbody>";
 
       for (var row in rows) {
+        alert("GOT HERE3.");
         var schoolCombo = "<a href='" + rows[row][8] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
         var applyCombo = "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>" + "<br />" + "<a href='" + rows[row][12] + "'>" + rows[row][11] + "</a>";
