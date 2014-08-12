@@ -319,7 +319,7 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in the list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
+    var selectColumns = "School, Manager, TypeNum, Address, City, Lat, Lng, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
 
@@ -346,6 +346,7 @@ var MapsLib = {
             <th>School (managed by)</th>\
             <th>Grades&nbsp;&nbsp;&nbsp;&nbsp;</th>\
             <th>Address</th>\
+            <th>Distance</th>\
             <th>To Apply</th>\
           </tr>\
         </thead>\
@@ -353,11 +354,11 @@ var MapsLib = {
 
       for (var row in rows) {
 
-        var schoolCombo = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
+        var schoolCombo = "<a href='" + rows[row][8] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
-        var applyCombo = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
+        var applyCombo = "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>" + "<br />" + "<a href='" + rows[row][12] + "'>" + rows[row][11] + "</a>";
 
-      // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+      // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][14] + "'>" rows[row][13] + "</a>"
 
       // based on the columns we selected in getList()
       // rows[row][0] = School
@@ -365,22 +366,25 @@ var MapsLib = {
       // rows[row][2] = TypeNum
       // rows[row][3] = Address
       // rows[row][4] = City
-      // rows[row][5] = Grades
-      // rows[row][6] = SchoolURL
-      // rows[row][7] = ApplyTo
-      // rows[row][8] = ApplyURL
-      // rows[row][9] = Transportation
-      // rows[row][10] = TransportationURL
-      // rows[row][11] = Rating
-      // rows[row][12] = RatingURL
+      // rows[row][5] = Lat
+      // rows[row][6] = Lng
+      // rows[row][7] = Grades
+      // rows[row][8] = SchoolURL
+      // rows[row][9] = ApplyTo
+      // rows[row][10] = ApplyURL
+      // rows[row][11] = Transportation
+      // rows[row][12] = TransportationURL
+      // rows[row][13] = Rating
+      // rows[row][14] = RatingURL
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
-            <td>" + rows[row][5] + "</td>\
+            <td>" + rows[row][7] + "</td>\
             <td>" + addressCombo + "</td>\
+            <td>" + getDistance(rows[row][5], rows[row][6], 0, 0) + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
       }
@@ -407,6 +411,7 @@ var MapsLib = {
               null, // schoolCombo - default text sorting
               null, // grades - default text sorting
               null, // addressCombo - default text sorting
+              { "sType": "data-value-num" }, //distance -- sort according to numerical value, ascending
               null // applyCombo - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
@@ -448,3 +453,19 @@ var MapsLib = {
 
   //-----end of custom functions-------
 }
+
+var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+var getDistance = function(p1_lat, p1_long, p2_lat, p2_long) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2_lat() - p1_lat());
+  var dLong = rad(p2_long() - p1_long());
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1_lat())) * Math.cos(rad(p2_lat())) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d; // returns the distance in meter
+};
