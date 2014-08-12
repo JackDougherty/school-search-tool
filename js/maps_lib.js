@@ -469,5 +469,5 @@ var getDistance = function(p1_lat, p1_long, p2_lat, p2_long) {
     Math.sin(dLong / 2) * Math.sin(dLong / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  return Math.round(d * .0006 * 100) / 100; // returns the distance in miles, rounded to the nearest .01
+  return Math.round(d * .0006 * 10) / 10; // returns the distance in miles, rounded to the nearest 0.1
 };
