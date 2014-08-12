@@ -379,6 +379,8 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
+        alert(getDistance(rows[row][5], rows[row][6], 0, 0));
+
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
