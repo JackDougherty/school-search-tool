@@ -328,6 +328,7 @@ var MapsLib = {
     var columns = json["columns"];
     var rows = json["rows"];
     var template = "";
+    alert("GOT HERE1.");
 
     var results = $("#listview");
     results.empty(); //hide the existing list and empty it out first
@@ -335,7 +336,6 @@ var MapsLib = {
     if (rows == null) {
       //clear results list
       results.append("<span class='lead'>No results found</span>");
-      alert("Row is null.");
       }
     else {
 
