@@ -93,8 +93,8 @@ var MapsLib = {
     //reset filters
     $("#search_address").val(MapsLib.convertToPlainString($.address.parameter('address')));
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
-    if (loadRadius != "") $("#search_radius").val(loadRadius);
-    else $("#search_radius").val(MapsLib.searchRadius);
+    // if (loadRadius != "") $("#search_radius").val(loadRadius);
+    // else $("#search_radius").val(MapsLib.searchRadius);
     $(":checkbox").prop("checked", "checked");
     $("#result_box").hide();
 
