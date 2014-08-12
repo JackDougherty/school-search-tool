@@ -7,6 +7,9 @@ a:hover { color: #4B58A6; }
 /* remove markers in front of unordered list */
 ul.unstyled {list-style-type:none;}
 
+/* indent the polygon on/off radio buttons*/
+ul.list-inline {padding-left: 40;}
+
 .filter-box { 
   height: 15px; 
   width: 15px;  
