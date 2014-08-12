@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       1000,            //in meters
+  // searchRadius:       1000,            //in meters; removed searchRadius from this tool
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -387,8 +387,6 @@ var MapsLib = {
             <td>" + getDistance(center.lat(), center.lng(), rows[row][5], rows[row][6]) + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
-          
-          console.log("WORKED.");
       }
 
       list_table += "\
