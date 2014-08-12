@@ -378,7 +378,7 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
-        alert("GOT HERE4.");
+        alert("GOT HERE5.");
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
