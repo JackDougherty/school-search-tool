@@ -321,10 +321,10 @@ var MapsLib = {
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
     var selectColumns = "School, Manager, TypeNum, Address, City, Lat, Lng, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
-    alert("HI");
   },
 
   displayList: function(json) {
+    alert("HI");
     MapsLib.handleError(json);
     var columns = json["columns"];
     var rows = json["rows"];
