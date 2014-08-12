@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       32200,            //in meters
+  // searchRadius:       1000,            //in meters; removed searchRadius from this tool
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -159,7 +159,7 @@ var MapsLib = {
           MapsLib.currentPinpoint = results[0].geometry.location;
 
           $.address.parameter('address', encodeURIComponent(address));
-          $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
+          // $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
           map.setZoom(12);
 
@@ -171,9 +171,9 @@ var MapsLib = {
             title:address
           });
 
-          whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
+          // whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
 
-          MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
+          // MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
           MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
         }
         else {
@@ -213,8 +213,8 @@ var MapsLib = {
       MapsLib.polygon1.setMap(null);
     if (MapsLib.addrMarker != null)
       MapsLib.addrMarker.setMap(null);
-    if (MapsLib.searchRadiusCircle != null)
-      MapsLib.searchRadiusCircle.setMap(null);
+    // if (MapsLib.searchRadiusCircle != null)
+    //   MapsLib.searchRadiusCircle.setMap(null);
   },
 
   findMe: function() {
@@ -246,21 +246,21 @@ var MapsLib = {
     });
   },
 
-  drawSearchRadiusCircle: function(point) {
-      var circleOptions = {
-        strokeColor: "#4b58a6",
-        strokeOpacity: 0.3,
-        strokeWeight: 1,
-        fillColor: "#4b58a6",
-        fillOpacity: 0.05,
-        map: map,
-        center: point,
-        clickable: false,
-        zIndex: -1,
-        radius: parseInt(MapsLib.searchRadius)
-      };
-      MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
-  },
+  // drawSearchRadiusCircle: function(point) {
+  //     var circleOptions = {
+  //       strokeColor: "#4b58a6",
+  //       strokeOpacity: 0.3,
+  //       strokeWeight: 1,
+  //       fillColor: "#4b58a6",
+  //       fillOpacity: 0.05,
+  //       map: map,
+  //       center: point,
+  //       clickable: false,
+  //       zIndex: -1,
+  //       radius: parseInt(MapsLib.searchRadius)
+  //     };
+  //     MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
+  // },
 
   query: function(selectColumns, whereClause, groupBY, orderBY, limit, callback) {
     var queryStr = [];
@@ -319,7 +319,7 @@ var MapsLib = {
   getList: function(whereClause) {
     // select specific columns from the fusion table to display in the list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
-    var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
+    var selectColumns = "School, Manager, TypeNum, Address, City, Lat, Lng, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
 
@@ -346,18 +346,18 @@ var MapsLib = {
             <th>School (managed by)</th>\
             <th>Grades&nbsp;&nbsp;&nbsp;&nbsp;</th>\
             <th>Address</th>\
+            <th>Distance&nbsp;&nbsp;&nbsp;</th>\
             <th>To Apply</th>\
           </tr>\
         </thead>\
         <tbody>";
 
       for (var row in rows) {
-
-        var schoolCombo = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
+        var schoolCombo = "<a href='" + rows[row][8] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
-        var applyCombo = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
+        var applyCombo = "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>" + "<br />" + "<a href='" + rows[row][12] + "'>" + rows[row][11] + "</a>";
 
-      // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
+      // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][14] + "'>" rows[row][13] + "</a>"
 
       // based on the columns we selected in getList()
       // rows[row][0] = School
@@ -365,22 +365,26 @@ var MapsLib = {
       // rows[row][2] = TypeNum
       // rows[row][3] = Address
       // rows[row][4] = City
-      // rows[row][5] = Grades
-      // rows[row][6] = SchoolURL
-      // rows[row][7] = ApplyTo
-      // rows[row][8] = ApplyURL
-      // rows[row][9] = Transportation
-      // rows[row][10] = TransportationURL
-      // rows[row][11] = Rating
-      // rows[row][12] = RatingURL
+      // rows[row][5] = Lat
+      // rows[row][6] = Lng
+      // rows[row][7] = Grades
+      // rows[row][8] = SchoolURL
+      // rows[row][9] = ApplyTo
+      // rows[row][10] = ApplyURL
+      // rows[row][11] = Transportation
+      // rows[row][12] = TransportationURL
+      // rows[row][13] = Rating
+      // rows[row][14] = RatingURL
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
+        var center = map.getCenter();
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
-            <td>" + rows[row][5] + "</td>\
+            <td>" + rows[row][7] + "</td>\
             <td>" + addressCombo + "</td>\
+            <td>" + getDistance(center.lat(), center.lng(), rows[row][5], rows[row][6]) + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
       }
@@ -407,6 +411,7 @@ var MapsLib = {
               null, // schoolCombo - default text sorting
               null, // grades - default text sorting
               null, // addressCombo - default text sorting
+              { "sType": "numeric" }, //distance -- sort according to numerical value, ascending
               null // applyCombo - default text sorting, and last item has NO COMMA
           ],
           "bFilter": false, // disable search box since we already have our own
@@ -448,3 +453,19 @@ var MapsLib = {
 
   //-----end of custom functions-------
 }
+// getDistance calculation uses Haversine formula from centerpoint of map to each row lat and lng
+var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+var getDistance = function(p1_lat, p1_long, p2_lat, p2_long) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2_lat - p1_lat);
+  var dLong = rad(p2_long - p1_long);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1_lat)) * Math.cos(rad(p2_lat)) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return Math.round(d * .0006 * 10) / 10; // returns the distance in miles, rounded to the nearest 0.1
+};
