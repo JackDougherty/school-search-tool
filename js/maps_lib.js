@@ -378,15 +378,16 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
-        alert("GOT HERE5.");
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
             <td>" + rows[row][7] + "</td>\
             <td>" + addressCombo + "</td>\
-            <td>" + getDistance(0, 0, rows[row][5], rows[row][6]) + "</td>\
+            <td>" + getDistance(center.lat(), center.lng(), rows[row][5], rows[row][6]) + "</td>\
             <td>" + applyCombo + "</td>\
           </tr>";
+          
+          console.log("WORKED.");
       }
 
       list_table += "\
