@@ -27,7 +27,7 @@ var MapsLib = {
   //MODIFY the encrypted Table IDs of your Fusion Tables (found under File => About)
   //NOTE: numeric IDs will be depricated soon
   fusionTableId:      "1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo", //Point data layer
-  
+
   polygon1TableID:    "1o-Xs4sG6qgc5u_MLwzVwjOX14WUul4oA1QlZTpTx", //HPS zones
 
   //*MODIFY Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
@@ -45,7 +45,7 @@ var MapsLib = {
   recordName:         "result",       //for showing number of results
   recordNamePlural:   "results",
 
-  searchRadius:       805,            //in meters, but by design, DOES NOT APPEAR in this tool
+  searchRadius:       32200,            //in meters
   defaultZoom:        12,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/star-icon.png',
   currentPinpoint:    null,
@@ -93,8 +93,8 @@ var MapsLib = {
     //reset filters
     $("#search_address").val(MapsLib.convertToPlainString($.address.parameter('address')));
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
-    if (loadRadius != "") $("#search_radius").val(loadRadius);
-    else $("#search_radius").val(MapsLib.searchRadius);
+    // if (loadRadius != "") $("#search_radius").val(loadRadius);
+    // else $("#search_radius").val(MapsLib.searchRadius);
     $(":checkbox").prop("checked", "checked");
     $("#result_box").hide();
 
@@ -117,16 +117,14 @@ var MapsLib = {
     }
 
     var address = $("#search_address").val();
-    MapsLib.searchRadius = $("#search_radius").val();
+    // MapsLib.searchRadius = $("#search_radius").val();
 
     var whereClause = MapsLib.locationColumn + " not equal to ''";
 
   //-----MODIFY custom filters
 
-    // JACK REDO COMMENTS AND FINISH for Grades drop-down menu: all, 1= Birth-3, 2=PK3, 3=PK4, 4=Knd, 5=Gr1, 6=Gr2,... 16=Gr12
-    //QUESTION: What is set of logical statements to search appropriate grade columns based on drop-down?
-    //SEE https://www.google.com/fusiontables/DataSource?docid=1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo
-    //ALSO, do I need to add a line to the Reset or Initialize portions of the code?
+    // for Grade drop-down menu to search across multiple columns in GFT, where select_grade (e.g. name of column=Gr1) = 1
+    // set up Google Fusion Table column headers to match drop-down options in index.html, and data = 1 or 0
     if ( $('#select_grade').val() !=""){
       whereClause += "AND '" + $("#select_grade").val() + "'='1'";
     }
@@ -141,7 +139,7 @@ var MapsLib = {
     if ( $("#cbType4").is(':checked')) searchType += "4,";
     if ( $("#cbType5").is(':checked')) searchType += "5,";
     whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
-    
+
     /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
     var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
     var tempWhereClause = [];
@@ -149,7 +147,7 @@ var MapsLib = {
     if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
     if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
     whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
-    
+
     //-------end of custom filters--------
 
     if (address != "") {
@@ -163,7 +161,7 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(14);
+          map.setZoom(12);
 
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint,
@@ -319,12 +317,12 @@ var MapsLib = {
   },
 
   getList: function(whereClause) {
-    // select specific columns from the fusion table to display in th list
+    // select specific columns from the fusion table to display in the list
     // NOTE: we'll be referencing these by their index (0 = School, 1 = GradeLevels, etc), so order matters!
     var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
-      
+
   displayList: function(json) {
     MapsLib.handleError(json);
     var columns = json["columns"];
@@ -358,9 +356,9 @@ var MapsLib = {
         var schoolCombo = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
         var applyCombo = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
-        
+
       // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
-        
+
       // based on the columns we selected in getList()
       // rows[row][0] = School
       // rows[row][1] = Manager
@@ -400,7 +398,7 @@ var MapsLib = {
 
       // custom sorting functions defined in js/jquery.dataTables.sorting.js
       // custom Bootstrap styles for pagination defined in css/dataTables.bootstrap.css
-      
+
       // IN FUTURE add: null // ratingCombo (and insert comma at end of prior null)
 
       $("#list_table").dataTable({
