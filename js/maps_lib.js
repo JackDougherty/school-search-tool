@@ -27,7 +27,7 @@ var MapsLib = {
   //MODIFY the encrypted Table IDs of your Fusion Tables (found under File => About)
   //NOTE: numeric IDs will be depricated soon
   fusionTableId:      "1n_hL8n1aC1_BysjBkBYv_EIt1HQgB53io0uG9-mo", //Point data layer
-  
+
   polygon1TableID:    "1o-Xs4sG6qgc5u_MLwzVwjOX14WUul4oA1QlZTpTx", //HPS zones
 
   //*MODIFY Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
@@ -117,7 +117,7 @@ var MapsLib = {
     }
 
     var address = $("#search_address").val();
-    MapsLib.searchRadius = $("#search_radius").val();
+    // MapsLib.searchRadius = $("#search_radius").val();
 
     var whereClause = MapsLib.locationColumn + " not equal to ''";
 
@@ -139,7 +139,7 @@ var MapsLib = {
     if ( $("#cbType4").is(':checked')) searchType += "4,";
     if ( $("#cbType5").is(':checked')) searchType += "5,";
     whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
-    
+
     /*-- TEXTUAL OPTION to display legend and filter by non-numerical data in your table
     var type_column = "'Program Type'";  // -- note use of single & double quotes for two-word column header
     var tempWhereClause = [];
@@ -147,7 +147,7 @@ var MapsLib = {
     if ( $("#cbType2").is(':checked')) tempWhereClause.push("District");
     if ( $("#cbType3").is(':checked')) tempWhereClause.push("MorePreK");
     whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')"; */
-    
+
     //-------end of custom filters--------
 
     if (address != "") {
@@ -322,7 +322,7 @@ var MapsLib = {
     var selectColumns = "School, Manager, TypeNum, Address, City, Grades, SchoolURL, ApplyTo, ApplyURL, Transportation, TransportationURL, Rating, RatingURL";
     MapsLib.query(selectColumns, whereClause,"", "", 500, "MapsLib.displayList");
   },
-      
+
   displayList: function(json) {
     MapsLib.handleError(json);
     var columns = json["columns"];
@@ -356,9 +356,9 @@ var MapsLib = {
         var schoolCombo = "<a href='" + rows[row][6] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
         var applyCombo = "<a href='" + rows[row][8] + "'>" + rows[row][7] + "</a>" + "<br />" + "<a href='" + rows[row][10] + "'>" + rows[row][9] + "</a>";
-        
+
       // IN FUTURE add --   var ratingCombo = "<a href='" + rows[row][12] + "'>" rows[row][11] + "</a>"
-        
+
       // based on the columns we selected in getList()
       // rows[row][0] = School
       // rows[row][1] = Manager
@@ -398,7 +398,7 @@ var MapsLib = {
 
       // custom sorting functions defined in js/jquery.dataTables.sorting.js
       // custom Bootstrap styles for pagination defined in css/dataTables.bootstrap.css
-      
+
       // IN FUTURE add: null // ratingCombo (and insert comma at end of prior null)
 
       $("#list_table").dataTable({
