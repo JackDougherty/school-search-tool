@@ -378,6 +378,7 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
+        var center = map.getCenter();
         list_table += "\
           <tr>\
             <td>" + schoolCombo + "</td>\
