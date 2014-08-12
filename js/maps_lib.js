@@ -353,6 +353,7 @@ var MapsLib = {
         <tbody>";
 
       for (var row in rows) {
+        alert("HI");
 
         var schoolCombo = "<a href='" + rows[row][8] + "'>" + rows[row][0] + "</a>" + " (" + rows[row][1] + ")";
         var addressCombo = rows[row][3] + ", " + rows[row][4];
@@ -379,7 +380,6 @@ var MapsLib = {
 
 
 // IN FUTURE , add: <td>" + ratingCombo + "</td>\
-        alert(getDistance(rows[row][5], rows[row][6], 0, 0));
 
         list_table += "\
           <tr>\
