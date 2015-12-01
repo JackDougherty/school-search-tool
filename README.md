@@ -4,7 +4,7 @@ school-search-tool
 The School School Tool template is a mobile-friendly interactive map with sortable results drawn from a Google Fusion Table. Anyone may fork, clone, or download this open-source code and modify to create their own version, using free web tools and following instructions below to link your Google Fusion Table and tweak some HTML/CSS/JavaScript code. Based on Searchable Map Template with Google Fusion Tables by Derek Eder http://derekeder.com/searchable_map_template/, and modified by DataViz at Trinity College, Hartford CT http://commons.trincoll.edu/dataviz. 
 
 Learn about this web technology in Data Visualization open-access book-in-progress by Jack Dougherty at Trinity College CT
-http://epress.trincoll.edu/dataviz
+http://datavizbook.org
 
 Learn about background of this tool at Cities Suburbs and Schools Project, SmartChoices and School Search Tool page
 http://commons.trincoll.edu/cssp/smartchoices
@@ -14,9 +14,6 @@ See publicly-funded education options available to residents of City of Hartford
 
 hosted on GitHub Pages
 https://jackdougherty.github.io/school-search-tool 
-
-hosted on a standalone WordPress.org site
-http://jacktest1.trinfocafe.org/map/
 
 see related versions of FusionTable-Map (with toggle between map/table display; dynamic legends, etc.)
 https://github.com/JackDougherty?tab=repositories
@@ -41,4 +38,4 @@ Carefully read comments to display table results (To Do)
 5) Host everything on the web (such as a GitHub repository gh-pages branch)
 
 See more details in Data Visualization open-access book-in-progress by Jack Dougherty at Trinity College CT
-http://epress.trincoll.edu/dataviz
+http://datavizbook.org
